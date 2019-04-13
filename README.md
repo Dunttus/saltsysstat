@@ -100,5 +100,13 @@ Git blame kokeilu ja analyysi, aloitin komennolla "**git blame init.sls**".
 Git blame komennolla saadaan selville muutoksen tekijän nimi ja muutoksen ajankohta "(Joni Hakala 2019-04-13 11:05:37 +0000 1) HelloWorld!".
 
 ## Git huonon muutoksen poisto
-Poistin tämän teksti tiedoston Xubuntulta kansiosta /srv/salt komennolla "sudo rm README.md" ja komennolla "**sudo git add .; sudo git commit -a -m "Updating README.md"; sudo git pull; sudo git push**" vein kanstiosta version GitHubiin, jossa tiedosto on poistettu.
+Poistin tämän teksti tiedoston Xubuntulta kansiosta /srv/salt komennolla "sudo rm README.md" ja komennolla "**sudo reset --hard**" toin tiedoston takaisin Salt kansioon.
 
+	xubuntu@xubuntu:/srv/salt$ sudo rm README.md
+	xubuntu@xubuntu:/srv/salt$ ls
+	LICENSE  sysstat
+	xubuntu@xubuntu:/srv/salt$ sudo git reset --hard
+	HEAD is now at 1b42327 Updating README.md
+	xubuntu@xubuntu:/srv/salt$ ls
+	LICENSE  README.md  sysstat
+ 
