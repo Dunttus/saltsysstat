@@ -32,7 +32,7 @@ Aloitin Git:in kokeilun tekemällä GitHub sivulle uuden repositoryn nimeltä "s
 
 Kirjoitin tähän asti tekstiä README.md tiedostoon ja kokelin ensimmäista committia GitHubiin komenoilla "**git config --global user.email "joni.hakala@myy.haaga-helia.fi"**" ja "**git config --global user.name "Joni Hakala"**", lisäsin config tiedostoon henkilö tiedot, josta Git saa tiedon keneltä commit tulee. Komennoilla "**sudo add . **", "**sudo commit -m "First test commit"**", "**sudo git pull; sudo git push**", lisäsin uudet tekstit Githubiin. Katsoin vielä menikö uusi commit GitHub sivulle, kyllä meni eli toimii.
 
-## git log, git diff ja git blame
+## Git log, git diff ja git blame
 Tein uuden kansion tulevalle ohjelmalle komennolla "**sudo mkdir sysstat**". Kansioon sysstat loin teksti tiedoston komennolla "**sudoedit init.sls**" ja uuden kansion komenolla "**sudo mkdir config**".
 Lähetin uudet muutokset GitHubiin komennoilla "**sudo git add .; sudo git commit -m "Testing log, dif and blame"; sudo git pull; sudo git push**"
 
@@ -40,6 +40,7 @@ Lähetin uudet muutokset GitHubiin komennoilla "**sudo git add .; sudo git commi
 Git log kokeilu ja analyysi, alotin komennolla "**git log**".
 
 	xubuntu@xubuntu:/srv/salt/sysstat$ git log
+	
 	commit 10ed6679fb7d6b939a02afa30a640b516c2d9c7a (HEAD -> master, origin/master, origin/HEAD)
 	Author: Joni Hakala <joni.hakala@myy.haaga-helia.fi>
 	Date:   Sat Apr 13 11:05:37 2019 +0000
@@ -58,10 +59,13 @@ Git log kokeilu ja analyysi, alotin komennolla "**git log**".
 	
 	    Initial commit
 
+Git log komennolla sain selville kaikkien muutosten lohkoketju numeron esim initial commit lohkonumero kohasta commit "d9f13e508a7001253b1268a073dfa78ae5ea795e", kaikkien muutosten tekijöiden nimet ja spostit Author: kohdasta "Dunttus <36055735+Dunttus@users.noreply.github.com>" ja muokkasten commit ajan kohdan Date: kohdasta "Thu Apr 11 21:06:01 2019 +0300" 
+
 ### Git diff
-Git diff kokeilu ja analyysi, aloitin komennolla git "**git diff**"
+Git diff kokeilu ja analyysi, aloitin komennolla git "**git diff**".
 
 	xubuntu@xubuntu:/srv/salt/sysstat$ git diff
+	
 	diff --git a/README.md b/README.md
 	index 1bd7636..80fb4b0 100644
 	--- a/README.md
@@ -84,9 +88,15 @@ Git diff kokeilu ja analyysi, aloitin komennolla git "**git diff**"
 	+Tein uuden kansion tulevalle ohjelmalle komennolla "**sudo mkdir sysstat**". Kansioon sysstat loin teksti tiedoston komennolla "**sudoedit init.sls**" ja uuden kansion komenolla "**sudo mkdir config**".
 	+Lähetin uudet muutokset GitHubiin komennoilla "**sudo git add .; sudo git commit -m "Testing log, dif and blame"; sudo git pull; sudo git push**"
 
+Git diff komennolla sain selville mitä tiedostoissa on vaihdettu + ja - merkkeillä esim. Teksti tiedosto README.md:n sisällä vaihdoin tekstejä "-# salt" ja "+# Salt" eli vahdtoin tekstin salt isolla alkukirjaimella --> Salt.
+
 ### Git blame
-Git blame kokeilu ja analyysi, aloitin komennolla "**git blame init.sls**"
+Git blame kokeilu ja analyysi, aloitin komennolla "**git blame init.sls**".
 
 	xubuntu@xubuntu:/srv/salt/sysstat$ git blame init.sls
+	
 	10ed6679 (Joni Hakala 2019-04-13 11:05:37 +0000 1) HelloWorld!
 
+Git blame komennolla saadaan selville muutoksen tekijän nimi ja muutoksen ajankohta "(Joni Hakala 2019-04-13 11:05:37 +0000 1) HelloWorld!".
+
+## Git huonon muutoksen poisto
