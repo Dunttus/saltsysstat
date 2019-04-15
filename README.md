@@ -110,3 +110,89 @@ Poistin tämän teksti tiedoston Xubuntulta kansiosta /srv/salt komennolla "sudo
 	xubuntu@xubuntu:/srv/salt$ ls
 	LICENSE  README.md  sysstat
  
+## Salt
+Ensin hain versio tiedot Xubuntulle komennolla "**sudo apt-get update**" ja asensin samalle koneelle Salt Minionin ja Masterin komennolla "**sudo apt-get install salt-master salt-minion**".
+Otin koneen orjaksi kansiosta /etc/salt/ tiedostoon minion kirjoitamalla sudoeditillä rivit 
+	master: 192.168.10.62
+	id: userjoni
+IP osoitteen sain selville komennolla "**hostname -I**". Uudelleen käynnistin vielä Salt-Minionin komennolla "**sudo systemctl restart salt-minion**".
+Otin vastaan orja tietokoneen komennolla "**sudo salt-key -A**"
+
+	xubuntu@xubuntu:/etc/salt$ sudo salt-key -A
+	The following keys are going to be accepted:
+	Unaccepted Keys:
+	userjoni
+	Proceed? [n/Y] Y
+	Key for minion userjoni accepted.
+
+Kokeilin vielä Master Minion arkkitehtuurin toimivuuden komennolla "**sudo salt '*' cmd.run 'whoami'**".
+
+	xubuntu@xubuntu:/etc/salt$ sudo salt '*' cmd.run 'whoami'
+	userjoni:
+	    root
+
+Komento vastasi oletetusti eli yhteys toimii.
+
+## Sysstat asennus Salt moduuli
+Loin sysstat kansion, init.sls tiedoston ja config kansion tehtävässä "Git log, git diff ka git blame" eli kansio rakenne komennolla "**tree**".
+
+	xubuntu@xubuntu:/srv/salt/sysstat$ tree
+	.
+	├── config
+	└── init.sls
+	
+	1 directory, 1 file
+
+### Init.sls tiedosto paketti asennus
+Ensin tarvitaan Salt moduuliin sysstat asennus paketti eli tein sen seuraavasti init.sls tiedostoon.
+
+	install_sysstat:
+	  pkg.installed:
+	    - pkgs:
+	      - sysstat
+
+Kokeilin toimivuuden ensin komennolla "**sar**", joka vastasi: 
+
+	xubuntu@xubuntu:/etc/salt$ sar
+	
+	Command 'sar' not found, but can be installed with:
+	
+	sudo apt install sysstat
+
+Eli sysstat ei ollu vielä asennettu Masterilla komennolla "**sudo salt '*' state.apply sysstat**" suoritin tiedostoon init.sls kirjoittamani rivit orja koneelle eli sysstatin pitäisi asentua.
+
+	xubuntu@xubuntu:/srv/salt/sysstat$ sudo salt '*' state.apply sysstat
+	userjoni:
+	----------
+	          ID: install_sysstat
+	    Function: pkg.installed
+	      Result: True
+	     Comment: The following packages were installed/updated: sysstat
+	     Started: 16:01:45.626395
+	    Duration: 9317.832 ms
+	     Changes:   
+	              ----------
+	              sysstat:
+	                  ----------
+	                  new:
+	                      11.6.1-1
+	                  old:
+	
+	Summary for userjoni
+	------------
+	Succeeded: 1 (changed=1)
+	Failed:    0
+	------------
+	Total states run:     1
+	Total run time:   9.318 s
+ 
+Saltin loki kertoi asentaneensa systat ohjelmiston, joten kokeilin orjalla komentoa "**sar**".
+
+	xubuntu@xubuntu:/etc/salt$ sar
+	Cannot open /var/log/sysstat/sa15: No such file or directory
+	Please check if data collecting is enabled
+
+Nyt sar komento ilmoitti että pitää laittaa data collection päälle eli sysstat paketti on asentunut ja tarvitsee vielä asetus tiedoston toimiakseen.
+
+## Init.sls asetus tiedosto sysstatiin
+
