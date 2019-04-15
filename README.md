@@ -192,7 +192,126 @@ Saltin loki kertoi asentaneensa systat ohjelmiston, joten kokeilin orjalla komen
 	Cannot open /var/log/sysstat/sa15: No such file or directory
 	Please check if data collecting is enabled
 
-Nyt sar komento ilmoitti että pitää laittaa data collection päälle eli sysstat paketti on asentunut ja tarvitsee vielä asetus tiedoston toimiakseen.
+Nyt sar komento ilmoitti, että pitää laittaa data collection päälle eli sysstat paketti on asentunut ja tarvitsee vielä asetus tiedoston toimiakseen.
 
 ## Init.sls asetus tiedosto sysstatiin
+Ensin etsin asetustiedoston, joka estää tiedon keräämisen eli menin kansioon /etc/defalt/ ja avasin komennolla "**sudoedit sysstat**" sysstatin asetus tiedoston, johon pitää vaihtaa alin rivi ENABLED="false" --> ENABLED="true".
+Uudelleen käynnistin sysstat ohjelmiston komennolla "**sudo systemctl restart sysstat**" ja kokeilin uudestaan komentoa "**sar**".
 
+	Linux 4.15.0-29-generic (xubuntu) 	04/15/19 	_x86_64_	(12 CPU)
+	
+	16:26:12     LINUX RESTART	(12 CPU)
+
+Asetus tiedo näyttäisi toimivan nyt vain pitää tehdä kopio siitä salt kansiion config joka hoitui komenolla "**sudo cp sysstat /srv/salt/sysstat/config/default-sysstat**".
+
+Tämän hetkinen kansio rakenne komennolla "**tree**".
+
+	xubuntu@xubuntu:/srv/salt$ tree
+	.
+	├── LICENSE
+	├── README.md
+	└── sysstat
+	    ├── config
+	    │   └── default-sysstat
+	    └── init.sls
+	
+	2 directories, 4 files
+
+Tein seuraavaksi init.sls tiedostoon toiminnon, joka vie asetustiedoston orja koneille ja uudelleen käynnistää sysstat palvelun.
+
+	install_sysstat:
+	  pkg.installed:
+	    - pkgs:
+	      - sysstat
+	
+	/etc/default/sysstat:
+	  file.managed:
+	    - source: salt://sysstat/config/default-sysstat
+	
+	sysstatservice:
+	  service.running:
+	    - name: sysstat
+	    - watch:
+	      - file: /etc/default/sysstat
+
+Kokeilin toimivuuden poistamalla sysstat paketin orja koneelta komennolla "**sudo apt-get purge sysstat**" ja kokeilin poistuiko ohjelma komennolla "**sar**", joka ilmoitti:
+
+	xubuntu@xubuntu:/etc/default$ sar
+	
+	Command 'sar' not found, but can be installed with:
+	
+	sudo apt install sysstat
+
+Eli sysstat paketti poistettu.
+
+
+Masterilla suoritin komennon "**sudo salt '*' state.apply sysstat**", joka ilmoitti:
+
+	xubuntu@xubuntu:/srv/salt/sysstat$ sudo salt '*' state.apply sysstat
+	userjoni:
+	----------
+	          ID: install_sysstat
+	    Function: pkg.installed
+	      Result: True
+	     Comment: The following packages were installed/updated: sysstat
+	     Started: 16:45:13.667226
+	    Duration: 8622.402 ms
+	     Changes:   
+	              ----------
+	              sysstat:
+	                  ----------
+	                  new:
+	                      11.6.1-1
+	                  old:
+	----------
+	          ID: /etc/default/sysstat
+	    Function: file.managed
+	      Result: True
+	     Comment: File /etc/default/sysstat updated
+	     Started: 16:45:22.292108
+	    Duration: 15.266 ms
+	     Changes:   
+	              ----------
+	              diff:
+	                  --- 
+	                  +++ 
+	                  @@ -6,5 +6,4 @@
+	                   # Should sadc collect system activity informations? Valid values
+	                   # are "true" and "false". Please do not put other values, they
+	                   # will be overwritten by debconf!
+	                  -ENABLED="false"
+	                  -
+	                  +ENABLED="true"
+	----------
+	          ID: sysstatservice
+	    Function: service.running
+	        Name: sysstat
+	      Result: True
+	     Comment: Service restarted
+	     Started: 16:45:22.894102
+	    Duration: 39.038 ms
+	     Changes:   
+	              ----------
+	              sysstat:
+	                  True
+	
+	Summary for userjoni
+	------------
+	Succeeded: 3 (changed=3)
+	Failed:    0
+	------------
+	Total states run:     3
+	Total run time:   8.677 s
+
+Saltin lokista voidaan päätellä, että kaikki init.sls tiedoston toimminnot onnistui.
+
+### Toimivuuden testaus
+
+Kokeilin vielä komentoa "**sar**" orja koneella, joka vastasi:
+
+	xubuntu@xubuntu:/srv/salt/sysstat$ sar
+	Linux 4.15.0-29-generic (xubuntu) 	04/15/19 	_x86_64_	(12 CPU)
+	
+	16:45:22     LINUX RESTART	(12 CPU)
+
+Tästä voin päätellä että sysstat asentuu, tietojen keräys asetus menee päälle ja sysstat uudelleen käynnistyy eli toimii.
