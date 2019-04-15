@@ -1,10 +1,10 @@
 # Salt
 # Linux palvelinten hallinta H3
 
-Alotin avaamalla Xubuntu-18.04.2 LTS 64-bit Live tilaan. Tällä live koneella testaan Slave ja Master toimivuuden.
+Aloitin avaamalla Xubuntu-18.04.2 LTS 64-bit Live tilaan. Tällä live koneella testaan Slave ja Master toimivuuden.
 
 ## Pöytäkoneen rauta
-Otin selvää koneen raudasta komennolla "**sudo lshw -short -sanitize**", listasin vain ollennaisimmat tiedot.
+Otin selvää koneen raudasta komennolla "**sudo lshw -short -sanitize**", listasin vain olennaisimmat tiedot.
 
 	H/W path                    Device     Class       Description
 	==============================================================
@@ -28,16 +28,16 @@ Otin selvää koneen raudasta komennolla "**sudo lshw -short -sanitize**", lista
 Xubuntulle päivitin versio tiedot komennolla "**sudo apt-get update**" ja asensin Salt-master paketin komennolla "**sudo apt-get install salt-master**"
 
 ## Git:in kokeilu
-Aloitin Git:in kokeilun tekemällä GitHub sivulle uuden repositoryn nimeltä "salt", lisäsin repositoryyn GNU-v3.0 lisenssin ja README.md tiedoston. Kopioin repositoryn paikkalliselle Xubuntulle navigoimalla kansiion /srv ja komennolla "**sudo git clone https://github.com/Dunttus/salt.git**" loin salt kansion.
+Aloitin Git:in kokeilun tekemällä GitHub sivulle uuden repositoryn nimeltä "salt", lisäsin repositoryyn GNU-v3.0 lisenssin ja README.md tiedoston. Kopioin repositoryn paikalliselle Xubuntulle navigoimalla kansioon /srv ja komennolla "**sudo git clone https://github.com/Dunttus/salt.git**" loin salt kansion.
 
-Kirjoitin tähän asti tekstiä README.md tiedostoon ja kokelin ensimmäista committia GitHubiin komenoilla "**git config --global user.email "joni.hakala@myy.haaga-helia.fi"**" ja "**git config --global user.name "Joni Hakala"**", lisäsin config tiedostoon henkilö tiedot, josta Git saa tiedon keneltä commit tulee. Komennoilla "**sudo add . **", "**sudo commit -m "First test commit"**", "**sudo git pull; sudo git push**", lisäsin uudet tekstit Githubiin. Katsoin vielä menikö uusi commit GitHub sivulle, kyllä meni eli toimii.
+Kirjoitin tähän asti tekstiä README.md tiedostoon ja kokeilin ensimmäistä committia GitHubiin komennoilla "**git config --global user.email "joni.hakala@myy.haaga-helia.fi"**" ja "**git config --global user.name "Joni Hakala"**", lisäsin config tiedostoon henkilö tiedot, josta Git saa tiedon keneltä commit tulee. Komennoilla "**sudo add . **", "**sudo commit -m "First test commit"**", "**sudo git pull; sudo git push**", lisäsin uudet tekstit Githubiin. Katsoin vielä, menikö uusi commit GitHub sivulle, kyllä meni eli toimii.
 
 ## Git log, git diff ja git blame
-Tein uuden kansion tulevalle ohjelmalle komennolla "**sudo mkdir sysstat**". Kansioon sysstat loin teksti tiedoston komennolla "**sudoedit init.sls**" ja uuden kansion komenolla "**sudo mkdir config**".
+Tein uuden kansion tulevalle ohjelmalle komennolla "**sudo mkdir sysstat**". Kansioon sysstat loin teksti tiedoston komennolla "**sudoedit init.sls**" ja uuden kansion komennolla "**sudo mkdir config**".
 Lähetin uudet muutokset GitHubiin komennoilla "**sudo git add .; sudo git commit -m "Testing log, dif and blame"; sudo git pull; sudo git push**"
 
 ### Git log
-Git log kokeilu ja analyysi, alotin komennolla "**git log**".
+Git log kokeilu ja analyysi, aloitin komennolla "**git log**".
 
 	xubuntu@xubuntu:/srv/salt/sysstat$ git log
 	
@@ -59,7 +59,7 @@ Git log kokeilu ja analyysi, alotin komennolla "**git log**".
 	
 	    Initial commit
 
-Git log komennolla sain selville kaikkien muutosten lohkoketju numeron esim initial commit lohkonumero kohasta commit "d9f13e508a7001253b1268a073dfa78ae5ea795e", kaikkien muutosten tekijöiden nimet ja spostit Author: kohdasta "Dunttus <36055735+Dunttus@users.noreply.github.com>" ja muokkasten commit ajan kohdan Date: kohdasta "Thu Apr 11 21:06:01 2019 +0300" 
+Git log komennolla sain selville kaikkien muutosten lohkoketju numeron esim initial commit lohkonumero kohdasta commit "d9f13e508a7001253b1268a073dfa78ae5ea795e", kaikkien muutosten tekijöiden nimet ja spostit Author: kohdasta "Dunttus <36055735+Dunttus@users.noreply.github.com>" ja muokkausten commit ajan kohdan Date: kohdasta "Thu Apr 11 21:06:01 2019 +0300" 
 
 ### Git diff
 Git diff kokeilu ja analyysi, aloitin komennolla git "**git diff**".
@@ -88,7 +88,7 @@ Git diff kokeilu ja analyysi, aloitin komennolla git "**git diff**".
 	+Tein uuden kansion tulevalle ohjelmalle komennolla "**sudo mkdir sysstat**". Kansioon sysstat loin teksti tiedoston komennolla "**sudoedit init.sls**" ja uuden kansion komenolla "**sudo mkdir config**".
 	+Lähetin uudet muutokset GitHubiin komennoilla "**sudo git add .; sudo git commit -m "Testing log, dif and blame"; sudo git pull; sudo git push**"
 
-Git diff komennolla sain selville mitä tiedostoissa on vaihdettu + ja - merkkeillä esim. Teksti tiedosto README.md:n sisällä vaihdoin tekstejä "-# salt" ja "+# Salt" eli vahdtoin tekstin salt isolla alkukirjaimella --> Salt.
+Git diff komennolla sain selville mitä tiedostoissa on vaihdettu + ja - merkeillä esim. Teksti tiedosto README.md:n sisällä vaihdoin tekstejä "-# salt" ja "+# Salt" eli vahdtoin tekstin salt isolla alkukirjaimella --> Salt.
 
 ### Git blame
 Git blame kokeilu ja analyysi, aloitin komennolla "**git blame init.sls**".
@@ -112,7 +112,7 @@ Poistin tämän teksti tiedoston Xubuntulta kansiosta /srv/salt komennolla "sudo
  
 ## Salt
 Ensin hain versio tiedot Xubuntulle komennolla "**sudo apt-get update**" ja asensin samalle koneelle Salt Minionin ja Masterin komennolla "**sudo apt-get install salt-master salt-minion**".
-Otin koneen orjaksi kansiosta /etc/salt/ tiedostoon minion kirjoitamalla sudoeditillä rivit 
+Otin koneen orjaksi kansiosta /etc/salt/ tiedostoon minion kirjoittamalla sudoeditillä rivit 
 	master: 192.168.10.62
 	id: userjoni
 IP osoitteen sain selville komennolla "**hostname -I**". Uudelleen käynnistin vielä Salt-Minionin komennolla "**sudo systemctl restart salt-minion**".
@@ -159,7 +159,7 @@ Kokeilin toimivuuden ensin komennolla "**sar**", joka vastasi:
 	
 	sudo apt install sysstat
 
-Eli sysstat ei ollu vielä asennettu Masterilla komennolla "**sudo salt '*' state.apply sysstat**" suoritin tiedostoon init.sls kirjoittamani rivit orja koneelle eli sysstatin pitäisi asentua.
+Eli sysstat ei ollut vielä asennettu Masterilla komennolla "**sudo salt '*' state.apply sysstat**" suoritin tiedostoon init.sls kirjoittamani rivit orja koneelle eli sysstatin pitäisi asentua.
 
 	xubuntu@xubuntu:/srv/salt/sysstat$ sudo salt '*' state.apply sysstat
 	userjoni:
@@ -186,7 +186,7 @@ Eli sysstat ei ollu vielä asennettu Masterilla komennolla "**sudo salt '*' stat
 	Total states run:     1
 	Total run time:   9.318 s
  
-Saltin loki kertoi asentaneensa systat ohjelmiston, joten kokeilin orjalla komentoa "**sar**".
+Saltin loki kertoi asentaneensa sysstat ohjelmiston, joten kokeilin orjalla komentoa "**sar**".
 
 	xubuntu@xubuntu:/etc/salt$ sar
 	Cannot open /var/log/sysstat/sa15: No such file or directory
@@ -202,7 +202,7 @@ Uudelleen käynnistin sysstat ohjelmiston komennolla "**sudo systemctl restart s
 	
 	16:26:12     LINUX RESTART	(12 CPU)
 
-Asetus tiedo näyttäisi toimivan nyt vain pitää tehdä kopio siitä salt kansiion config joka hoitui komenolla "**sudo cp sysstat /srv/salt/sysstat/config/default-sysstat**".
+Asetus tiedosto näyttäisi toimivan nyt vain pitää tehdä kopio siitä salt kansioon config joka hoitui komennolla "**sudo cp sysstat /srv/salt/sysstat/config/default-sysstat**".
 
 Tämän hetkinen kansio rakenne komennolla "**tree**".
 
@@ -234,7 +234,7 @@ Tein seuraavaksi init.sls tiedostoon toiminnon, joka vie asetustiedoston orja ko
 	    - watch:
 	      - file: /etc/default/sysstat
 
-Kokeilin toimivuuden poistamalla sysstat paketin orja koneelta komennolla "**sudo apt-get purge sysstat**" ja kokeilin poistuiko ohjelma komennolla "**sar**", joka ilmoitti:
+Kokeilin toimivuuden poistamalla sysstat paketin orja koneelta komennolla "**sudo apt-get purge sysstat**" ja kokeilin, poistuiko ohjelma komennolla "**sar**", joka ilmoitti:
 
 	xubuntu@xubuntu:/etc/default$ sar
 	
@@ -303,7 +303,7 @@ Masterilla suoritin komennon "**sudo salt '*' state.apply sysstat**", joka ilmoi
 	Total states run:     3
 	Total run time:   8.677 s
 
-Saltin lokista voidaan päätellä, että kaikki init.sls tiedoston toimminnot onnistui.
+Saltin lokista voidaan päätellä, että kaikki init.sls tiedoston toiminnot onnistuivat.
 
 ### Toimivuuden testaus
 
@@ -314,4 +314,9 @@ Kokeilin vielä komentoa "**sar**" orja koneella, joka vastasi:
 	
 	16:45:22     LINUX RESTART	(12 CPU)
 
-Tästä voin päätellä että sysstat asentuu, tietojen keräys asetus menee päälle ja sysstat uudelleen käynnistyy eli toimii.
+Tästä voin päätellä, että sysstat asentuu, tietojen keräys asetus menee päälle ja sysstat uudelleen käynnistyy eli toimii.
+
+
+
+## Lähteet:
+Pohjana Tero Karvinen 2012: Palvelinten hallinta kurssi, http://terokarvinen.com
