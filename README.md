@@ -331,3 +331,4 @@ Käytin näköjään komennossa "**xubuntu@xubuntu:/srv/salt$ git config --globa
 
 ## Lähteet:
 Pohjana Tero Karvinen 2012: Palvelinten hallinta kurssi, http://terokarvinen.com
+Tehtävät: http://terokarvinen.com/2018/aikataulu-palvelinten-hallinta-ict4tn022-3003-ti-ja-3001-to-loppukevat-2019
