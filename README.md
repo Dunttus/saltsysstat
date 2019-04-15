@@ -317,6 +317,16 @@ Kokeilin vielä komentoa "**sar**" orja koneella, joka vastasi:
 Tästä voin päätellä, että sysstat asentuu, tietojen keräys asetus menee päälle ja sysstat uudelleen käynnistyy eli toimii.
 
 
+## Käyttäjä root..
+Huomasin vielä lopuksi että jostain syystä ei mennyt tämän päivän nimi ja sposti config tiedostoon vaikka laitoin komennot:
+
+	xubuntu@xubuntu:/srv/salt$ git config --global user.email "joni.hakala@myy.haaga-helia.fi"
+	xubuntu@xubuntu:/srv/salt$ git config --global user.user "Joni Hakala"
+
+Ennen tätä committia olisi pitänyt vaihtua:
+	xubuntu@xubuntu:/srv/salt$ sudo git add .; sudo git commit -a -m "Adding sysstat install package to init.sls"; sudo git pull; sudo git push
+
+Käytin näköjään komennossa "**xubuntu@xubuntu:/srv/salt$ git config --global user.name "Joni Hakala"**" name:n sijasta user.
 
 ## Lähteet:
 Pohjana Tero Karvinen 2012: Palvelinten hallinta kurssi, http://terokarvinen.com
